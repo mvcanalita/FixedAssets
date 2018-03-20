@@ -1,0 +1,2 @@
+D:\devEnv\windows\FixedAssetBarcodeUI\FixedAssetBarcodeUI\bin\x86\Debug\FixedAssetBarcodeUI.exe.config
+D:\devEnv\windows\FixedAssetBarcodeUI\FixedAssetBarcodeUI\obj\x86\Debug\FixedAssetBarcodeUI.csproj.ResolveComReference.cache

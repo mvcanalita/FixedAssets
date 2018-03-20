@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FixedAssetBarcodeUI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="useDefaultPrinter" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="documentPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\BT\</Value>
+    </Setting>
+    <Setting Name="previewPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\BT\Preview\</Value>
+    </Setting>
+    <Setting Name="printerName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="useDefaultDocLoc" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="defaultDocument" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FixedAssetTemplateV1.btw</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
