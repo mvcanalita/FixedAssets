@@ -321,6 +321,8 @@ namespace FixedAssetBarcodeUI
         //        }
 
         //}
+
+        //Using text file as database
         protected void hooktextdb(string btLayoutPath, string prtName, string filepath)
         {
             using (Engine btEngine = new Engine(true))
