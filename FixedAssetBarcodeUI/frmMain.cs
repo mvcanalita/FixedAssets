@@ -146,38 +146,38 @@ namespace FixedAssetBarcodeUI
         //loading of Template from default folder
         protected void loadDocumentTemplates()
         {
-         
-                if (!Properties.Settings.Default.useDefaultDocLoc)
-                {
-                    try
-                    {
-                        documentDirectoryPath = Path.Combine(Application.StartupPath, @"\Templates\");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Path Not Found." + Environment.NewLine + Environment.NewLine + ex.ToString());
-                    }
 
+            if (!Properties.Settings.Default.useDefaultDocLoc)
+            {
+                try
+                {
+                    documentDirectoryPath = Path.Combine(Application.StartupPath, @"\Templates\");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Path Not Found." + Environment.NewLine + Environment.NewLine + ex.ToString());
+                }
+
+            }
+            else
+            {
+                if (!Directory.Exists(Properties.Settings.Default.documentPath.ToString()))
+                {
+                    MessageBox.Show("Path Not Found.");
                 }
                 else
                 {
-                    if (!Directory.Exists(Properties.Settings.Default.documentPath.ToString()))
+                    try
                     {
-                        MessageBox.Show("Path Not Found.");
+                        documentDirectoryPath = Properties.Settings.Default.documentPath.ToString();
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            documentDirectoryPath = Properties.Settings.Default.documentPath.ToString();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
+                        MessageBox.Show(ex.Message);
                     }
                 }
-            
+            }
+
         }
 
         protected void loadCmbTemplate()
@@ -252,7 +252,7 @@ namespace FixedAssetBarcodeUI
                 btnPrint.Enabled = false;
                 btEngine.Start();
                 LabelFormatDocument ldoc = btEngine.Documents.Open(btLayoutPath);
-                ldoc.PrintSetup.PrinterName = prtName.Trim();
+                ldoc.PrintSetup.PrinterName = trimPrinterName(prtName);
                 using (StreamReader ioFile = new StreamReader(@filepath))
                 {
                     ioFile.ReadLine();
@@ -321,7 +321,26 @@ namespace FixedAssetBarcodeUI
         //        }
 
         //}
-
+        protected void hooktextdb(string btLayoutPath, string prtName, string filepath)
+        {
+            using (Engine btEngine = new Engine(true))
+            {
+                lbEvents.Items.Add("Print Job Started");
+                btnPrint.Enabled = false;
+                btEngine.Start();
+                LabelFormatDocument ldoc = btEngine.Documents.Open(btLayoutPath);
+                ldoc.PrintSetup.PrinterName = trimPrinterName(prtName);
+                Seagull.BarTender.Print.Database.TextFile tf = new Seagull.BarTender.Print.Database.TextFile(ldoc.DatabaseConnections[0].Name);
+                tf.FileName = @filepath;
+                ldoc.DatabaseConnections.SetDatabaseConnection(tf);
+                ldoc.PrintSetup.ReloadTextDatabaseFields = true; // Fix when field order is different from design time
+                //print using the database
+                ldoc.Print();
+                //Close the document
+                ldoc.Close(SaveOptions.DoNotSaveChanges);
+                btEngine.Stop();
+            }
+        }
 
         #endregion
         private void pbSettings_Click(object sender, EventArgs e)
