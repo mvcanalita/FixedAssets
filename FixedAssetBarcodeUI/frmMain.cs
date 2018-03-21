@@ -378,7 +378,28 @@ namespace FixedAssetBarcodeUI
             else
             {
                 //readExcelFile(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
-                printFinalLayout(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
+
+                switch (cmbDocument.SelectedItem.ToString())
+                {
+                    case "FixedAssetTemplateV1":
+                        printFinalLayout(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
+                        break;
+
+                    case "FixedAssetTemplateV2":
+                        printFinalLayout(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
+                        break;
+
+                    case "FixedAssetTemplateV3":
+                        hooktextdb(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
+                        break;
+
+                    default:
+                        printFinalLayout(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
+                        break;
+                }
+
+                
+
                 //statusUpdater.RunWorkerAsync();
             }
         }
