@@ -135,11 +135,11 @@ namespace FixedAssetBarcodeUI
             if (printerName.Contains(@"\"))
             {
                 string[] slice = printerName.Split('\\');
-                return slice[slice.Length - 1];
+                return slice[slice.Length - 1].Trim();
             }
             else
             {
-                return printerName;
+                return printerName.Trim();
             }
         }
 
@@ -381,15 +381,15 @@ namespace FixedAssetBarcodeUI
 
                 switch (cmbDocument.SelectedItem.ToString())
                 {
-                    case "FixedAssetTemplateV1":
+                    case "FixedAssetTemplateV1.btw":
                         printFinalLayout(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
                         break;
 
-                    case "FixedAssetTemplateV2":
+                    case "FixedAssetTemplateV2.btw":
                         printFinalLayout(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
                         break;
 
-                    case "FixedAssetTemplateV3":
+                    case "FixedAssetTemplateV3.btw":
                         hooktextdb(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
                         break;
 
