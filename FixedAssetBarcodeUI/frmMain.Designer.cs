@@ -53,6 +53,8 @@
             this.btnPrint = new System.Windows.Forms.Button();
             this.lbEvents = new System.Windows.Forms.ListBox();
             this.statusUpdater = new System.ComponentModel.BackgroundWorker();
+            this.cmbPrinters = new System.Windows.Forms.ComboBox();
+            this.chkUseDefault = new System.Windows.Forms.CheckBox();
             this.pnlHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -242,11 +244,13 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkUseDefault);
+            this.groupBox2.Controls.Add(this.cmbPrinters);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.txtActivePrinter);
             this.groupBox2.Location = new System.Drawing.Point(29, 281);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(221, 98);
+            this.groupBox2.Size = new System.Drawing.Size(221, 130);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Printer";
@@ -254,7 +258,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 31);
+            this.label5.Location = new System.Drawing.Point(6, 51);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 13);
             this.label5.TabIndex = 11;
@@ -263,10 +267,10 @@
             // txtActivePrinter
             // 
             this.txtActivePrinter.Enabled = false;
-            this.txtActivePrinter.Location = new System.Drawing.Point(6, 58);
+            this.txtActivePrinter.Location = new System.Drawing.Point(9, 67);
             this.txtActivePrinter.Name = "txtActivePrinter";
             this.txtActivePrinter.ReadOnly = true;
-            this.txtActivePrinter.Size = new System.Drawing.Size(209, 20);
+            this.txtActivePrinter.Size = new System.Drawing.Size(206, 20);
             this.txtActivePrinter.TabIndex = 1;
             // 
             // cmbDocument
@@ -301,14 +305,36 @@
             // lbEvents
             // 
             this.lbEvents.FormattingEnabled = true;
-            this.lbEvents.Location = new System.Drawing.Point(29, 400);
+            this.lbEvents.Location = new System.Drawing.Point(278, 413);
             this.lbEvents.Name = "lbEvents";
-            this.lbEvents.Size = new System.Drawing.Size(598, 69);
+            this.lbEvents.Size = new System.Drawing.Size(349, 56);
             this.lbEvents.TabIndex = 13;
             // 
             // statusUpdater
             // 
             this.statusUpdater.WorkerReportsProgress = true;
+            // 
+            // cmbPrinters
+            // 
+            this.cmbPrinters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPrinters.Enabled = false;
+            this.cmbPrinters.FormattingEnabled = true;
+            this.cmbPrinters.Location = new System.Drawing.Point(9, 93);
+            this.cmbPrinters.Name = "cmbPrinters";
+            this.cmbPrinters.Size = new System.Drawing.Size(206, 21);
+            this.cmbPrinters.TabIndex = 14;
+            this.cmbPrinters.SelectedIndexChanged += new System.EventHandler(this.cmbPrinters_SelectedIndexChanged);
+            // 
+            // chkUseDefault
+            // 
+            this.chkUseDefault.AutoSize = true;
+            this.chkUseDefault.Location = new System.Drawing.Point(62, 19);
+            this.chkUseDefault.Name = "chkUseDefault";
+            this.chkUseDefault.Size = new System.Drawing.Size(115, 17);
+            this.chkUseDefault.TabIndex = 15;
+            this.chkUseDefault.Text = "Use Default Printer";
+            this.chkUseDefault.UseVisualStyleBackColor = true;
+            this.chkUseDefault.CheckedChanged += new System.EventHandler(this.chkUseDefault_CheckedChanged);
             // 
             // frmMain
             // 
@@ -376,6 +402,8 @@
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.ListBox lbEvents;
         private System.ComponentModel.BackgroundWorker statusUpdater;
+        private System.Windows.Forms.ComboBox cmbPrinters;
+        private System.Windows.Forms.CheckBox chkUseDefault;
     }
 }
 

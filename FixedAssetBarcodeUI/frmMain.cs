@@ -13,6 +13,7 @@ using Seagull.Services.PrintScheduler;
 using System.Drawing.Printing;
 using System.IO;
 using System.Data.OleDb;
+using System.Management;
 
 namespace FixedAssetBarcodeUI
 {
@@ -109,26 +110,21 @@ namespace FixedAssetBarcodeUI
         #endregion
 
         #region methods
-        //private void statusUpdater_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        //{
-        //    if (e.UserState.GetType() == typeof(Messages))
-        //    {
-        //        Messages messages = (Messages)e.UserState;
-        //        string text;
-        //        foreach (Seagull.BarTender.Print.Message message in messages)
-        //        {
-        //            // Let's remove any carriage returns and linefeeds since
-        //            // we are putting each message on a single line.
-        //            text = message.Text.Replace('\n', ' ');
-        //            text = text.Replace('\r', ' ');
-        //            lbEvents.Items.Add(text);
-        //        }
-        //    }
+        //Load printers to combo box
+        protected void loadPrinters()
+        {
+            var printerQuery = new ManagementObjectSearcher("SELECT * from Win32_Printer");
+            foreach (var printer in printerQuery.Get())
+            {
 
-        //    // If we are finished printing, re-enable the print button.
-        //    if (e.ProgressPercentage == 100)
-        //        btnPrint.Enabled = true;
-        //}
+                var name = printer.GetPropertyValue("Name");
+                var status = printer.GetPropertyValue("Status");
+                var isDefault = printer.GetPropertyValue("Default");
+                var printloc = printer.GetPropertyValue("Location");
+                cmbPrinters.Items.Add(name);
+            }
+        }
+
         //printer name trimmer
         private string trimPrinterName(string printerName)
         {
@@ -211,8 +207,14 @@ namespace FixedAssetBarcodeUI
             {
                 txtActivePrinter.Text = trimPrinterName(Properties.Settings.Default.printerName.ToString());
             }
+            //load printers
+            loadPrinters();
+            //load templates from default folder
             loadDocumentTemplates();
+            //load documents in cmb
             loadCmbTemplate();
+            //always check default printer
+            chkUseDefault.Checked = true;
 
         }
 
@@ -281,47 +283,7 @@ namespace FixedAssetBarcodeUI
         {
             lbEvents.Items.Add(output);
         }
-        //private void Engine_JobSent(object sender, JobSentEventArgs printJob)
-        //{
-        //    DoUpdateOutputDelegate doUpdateOutputDelegate = new DoUpdateOutputDelegate(DoUpdateOutput);
-        //    if (printJob.JobPrintingVerified)
-        //        lbEvents.Invoke(doUpdateOutputDelegate, new object[] { string.Format("PrintJob {0} Sent/Print Verified on {1}.", printJob.Name, printJob.PrinterInfo.Name) });
-        //    else
-        //        lbEvents.Invoke(doUpdateOutputDelegate, new object[] { string.Format("PrintJob {0} Sent to {1}.", printJob.Name, printJob.PrinterInfo.Name) });
-        //}
-
-        //Reading Excel File
-        //protected void readExcelFile(string btLayoutPath, string prtName, string filepath)
-        //{
-        //    string constr = "Provider=Microsoft.Jet.OleDb.4.0; Data Source=" + @filepath + "; Extended Properties = \"Text;HDR=YES;FMT=Delimited\"";
-        //    string sCommand = "SELECT * FROM [Sheet1$]";
-
-
-        //        using (OleDbConnection con = new OleDbConnection(constr))
-        //        {
-        //            using (Engine btEngine = new Engine(true))
-        //            {
-        //                btEngine.Start();
-        //                LabelFormatDocument ldoc = btEngine.Documents.Open(btLayoutPath);
-        //                ldoc.PrintSetup.PrinterName = prtName.Trim();
-        //                OleDbCommand command = new OleDbCommand(sCommand, con);
-        //                con.Open();
-
-        //                OleDbDataReader rdr = command.ExecuteReader();
-        //                while (rdr.Read())
-        //                {
-        //                    ldoc.SubStrings["lblBarcode"].Value = rdr["ID"].ToString();
-        //                    ldoc.SubStrings["lblDescription"].Value = rdr["Print Name"].ToString();
-        //                    ldoc.SubStrings["lblDate"].Value = rdr["Purchase Date"].ToString() != string.Empty ? Convert.ToDateTime(rdr["Purchase Date"]).ToShortDateString() : "";
-        //                    ldoc.Print();
-        //                }
-        //                ldoc.Close(SaveOptions.DoNotSaveChanges);
-        //                btEngine.Stop();
-        //            }
-        //        }
-
-        //}
-
+        
         //Using text file as database
         protected void hooktextdb(string btLayoutPath, string prtName, string filepath)
         {
@@ -377,7 +339,6 @@ namespace FixedAssetBarcodeUI
             }
             else
             {
-                //readExcelFile(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
 
                 switch (cmbDocument.SelectedItem.ToString())
                 {
@@ -398,45 +359,32 @@ namespace FixedAssetBarcodeUI
                         break;
                 }
 
-                
-
-                //statusUpdater.RunWorkerAsync();
             }
         }
 
-        //private void statusUpdater_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    using (Engine btEngine = new Engine(true))
-        //    {
+        private void cmbPrinters_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                txtActivePrinter.Text = trimPrinterName(cmbPrinters.SelectedItem.ToString());
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Mvc");
+            }
+        }
 
-        //        btEngine.Start();
-
-        //        LabelFormatDocument ldoc = btEngine.Documents.Open(Path.Combine(documentDirectoryPath, docName));
-        //        Messages messages;
-        //        btEngine.JobSent += new EventHandler<JobSentEventArgs>(Engine_JobSent);
-        //        ldoc.PrintSetup.PrinterName = txtActivePrinter.Text.Trim();
-        //        using (StreamReader ioFile = new StreamReader(@txtPath.Text))
-        //        {
-        //            ioFile.ReadLine();
-        //            int counter = 0;
-        //            string line;
-        //            while ((line = ioFile.ReadLine()) != null)
-        //            {
-        //                string[] filSpliced = line.Split(',');
-        //                ldoc.SubStrings["lblBarcode"].Value = filSpliced[1];
-        //                ldoc.SubStrings["lblDescription"].Value = filSpliced[2];
-        //                ldoc.SubStrings["lblDate"].Value = filSpliced[3].ToString() != string.Empty ? Convert.ToDateTime(filSpliced[3]).ToShortDateString() : "";
-
-        //                ldoc.Print("FixedAsset App - ", System.Threading.Timeout.Infinite, out messages);
-        //                statusUpdater.ReportProgress(100, messages);
-        //                counter++;
-        //            }
-        //            ioFile.Close();
-
-        //        }
-        //        ldoc.Close(SaveOptions.DoNotSaveChanges);
-        //        btEngine.Stop();
-        //    }
-        //}
+        private void chkUseDefault_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!chkUseDefault.Checked)
+            {
+                cmbPrinters.Enabled = true;
+            }
+            else
+            {
+                cmbPrinters.Enabled = false;
+                PrinterSettings ps = new PrinterSettings();
+                txtActivePrinter.Text = trimPrinterName(ps.PrinterName.ToString());
+            }
+        }
     }
 }
