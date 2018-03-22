@@ -304,6 +304,7 @@ namespace FixedAssetBarcodeUI
                 ldoc.Close(SaveOptions.DoNotSaveChanges);
                 btEngine.Stop();
             }
+            btnPrint.Enabled = true;
         }
 
         #endregion

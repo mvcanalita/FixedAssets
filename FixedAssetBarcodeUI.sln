@@ -5,6 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedAssetBarcodeUI", "FixedAssetBarcodeUI\FixedAssetBarcodeUI.csproj", "{10355CDC-3D7B-410C-A73A-137751A5F174}"
 EndProject
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "FixedAssetUI_Setup", "FixedAssetUI_Setup\FixedAssetUI_Setup.isproj", "{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{10355CDC-3D7B-410C-A73A-137751A5F174} = {10355CDC-3D7B-410C-A73A-137751A5F174}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -24,6 +29,16 @@ Global
 		{10355CDC-3D7B-410C-A73A-137751A5F174}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10355CDC-3D7B-410C-A73A-137751A5F174}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{10355CDC-3D7B-410C-A73A-137751A5F174}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
+		{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}.CD_ROM|Any CPU.Build.0 = CD_ROM
+		{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}.Debug|Any CPU.ActiveCfg = DVD-5
+		{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}.Debug|Any CPU.Build.0 = DVD-5
+		{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}.DVD-5|Any CPU.ActiveCfg = DVD-5
+		{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}.DVD-5|Any CPU.Build.0 = DVD-5
+		{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}.Release|Any CPU.ActiveCfg = SingleImage
+		{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}.Release|Any CPU.Build.0 = SingleImage
+		{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}.SingleImage|Any CPU.ActiveCfg = SingleImage
+		{7BC2AFF9-A587-4DB0-92F5-C6F9305DE73B}.SingleImage|Any CPU.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
