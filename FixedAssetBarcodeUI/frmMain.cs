@@ -236,9 +236,9 @@ namespace FixedAssetBarcodeUI
                     // Open the specified format. 
                     LabelFormatDocument btFormat = btEngine.Documents.Open(Path.Combine(documentDirectoryPath, documentFile));
                     // Export the label format's thumbnail image to a file. 
-                    btFormat.ExportImageToFile(Path.Combine(Path.GetTempPath(), "PreviewImage.jpg"), ImageType.JPEG, Seagull.BarTender.Print.ColorDepth.ColorDepth256, new Resolution(96), Seagull.BarTender.Print.OverwriteOptions.Overwrite);
+                    btFormat.ExportImageToFile(Path.Combine(Properties.Settings.Default.previewPath, "PreviewImage.jpg"), ImageType.JPEG, Seagull.BarTender.Print.ColorDepth.ColorDepth256, new Resolution(96), Seagull.BarTender.Print.OverwriteOptions.Overwrite);
                     // Stop the BarTender print engine. 
-                    pbPreview.ImageLocation = Path.Combine(Path.GetTempPath(), "PreviewImage.jpg");
+                    pbPreview.ImageLocation = Path.Combine(Properties.Settings.Default.previewPath, "PreviewImage.jpg");
                     btEngine.Stop();
                 }
                 //Change Preview
@@ -251,6 +251,7 @@ namespace FixedAssetBarcodeUI
             using (Engine btEngine = new Engine(true))
             {
                 lbEvents.Items.Add("Print Job Started");
+                DateTime dateValue;
                 btnPrint.Enabled = false;
                 btEngine.Start();
                 LabelFormatDocument ldoc = btEngine.Documents.Open(btLayoutPath);
@@ -264,8 +265,8 @@ namespace FixedAssetBarcodeUI
                     {
                         string[] filSpliced = line.Split(',');
                         ldoc.SubStrings["lblBarcode"].Value = filSpliced[1];
-                        ldoc.SubStrings["lblDescription"].Value = filSpliced[2];
-                        ldoc.SubStrings["lblDate"].Value = filSpliced[3].ToString() != string.Empty ? Convert.ToDateTime(filSpliced[3]).ToShortDateString() : "";
+                        ldoc.SubStrings["lblDescription"].Value = filSpliced[2].Replace(',',' ');
+                        ldoc.SubStrings["lblDate"].Value = DateTime.TryParse(filSpliced[3], out dateValue)  ? filSpliced[3] : "1/1/1990";
 
                         ldoc.Print();
                         counter++;
@@ -356,7 +357,7 @@ namespace FixedAssetBarcodeUI
                         break;
 
                     default:
-                        printFinalLayout(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
+                        hooktextdb(Path.Combine(documentDirectoryPath, cmbDocument.SelectedItem.ToString()), txtActivePrinter.Text, txtPath.Text);
                         break;
                 }
 
